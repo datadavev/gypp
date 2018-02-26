@@ -70,5 +70,5 @@ Show a specific entry on the commandline::
 
 Place password for entry on the clipboard::
 
-  $ gypp -s -k some_key my_passwords.gpg
+  $ gypp -k some_key my_passwords.gpg
 
