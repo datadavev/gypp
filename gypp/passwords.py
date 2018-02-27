@@ -91,10 +91,12 @@ class Passwords(object):
 
     :return: string
     '''
-    source_name = os.path.splitext(self.source)[0]
-    command = "gpg -e -s"
+    source_name = self.source
+    if self._source_is_encrypted:
+      source_name = os.path.splitext(self.source)[0]
+    command = "gpg -e -s \ \n"
     for recipient in self.recipients():
-      command += ' -r "{}"'.format(recipient)
+      command += ' -r "{}" \ \n'.format(recipient)
     command += ' "' + source_name + '"'
     return command
 
