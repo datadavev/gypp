@@ -86,7 +86,7 @@ def main():
     sys.exit(0)
 
   if args.key is None:
-    keys = p.keys()
+    keys = sorted(p.keys())
     print("Source: {}".format(p.source))
     print("Description: {}".format(p._description))
     print("Keys available:")
