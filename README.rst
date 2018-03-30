@@ -85,3 +85,20 @@ file structured like::
 
   $ gypp source_name_2
 
+
+Development
+-----------
+
+Repository: https://github.com/datadavev/gypp
+
+Development install::
+
+  $ git clone https://github.com/datadavev/gypp.git
+  $ cd gypp
+  $ pip install -U -e .
+
+Deploy to pypi::
+
+  $ python setup.py sdist
+  $ twine upload dist/*
+
