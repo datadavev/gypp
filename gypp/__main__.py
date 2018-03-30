@@ -28,12 +28,15 @@ some_key:
 '''
 
 import sys
+import os
 import argparse
 import logging
 import pyperclip
 import textwrap
+import yaml
 from . import passwords_yaml
 
+CONFIG_FILE=os.path.expanduser("~/.config/gypp/gypp.yml")
 
 #==============================================
 def main():
@@ -58,6 +61,9 @@ def main():
                       default=False,
                       action='store_true',
                       help='Show command for file encryption')
+  parser.add_argument('--config',
+                      default=CONFIG_FILE,
+                      help='Gypp configuration file ({})'.format(CONFIG_FILE))
   parser.add_argument('source',
                       nargs='?',
                       default=None,
@@ -72,13 +78,26 @@ def main():
   glogger = logging.getLogger('gnupg')
   glogger.setLevel(logging.ERROR)
 
+  config = {}
+  if os.path.exists(args.config):
+    with open(args.config) as finput:
+      config = yaml.safe_load(finput)
+  if not 'sources' in config:
+    config['sources'] = {}
   if args.source is None:
     logging.error("source is required.")
+    print("Configured sources:")
+    for src in config['sources']:
+      print("{} : {}".format(src, config['sources'][src]))
     sys.exit(1)
+  source = args.source
+  if source in config['sources']:
+    source = config['sources'][source]
 
-  p = passwords_yaml.PasswordsYAML(args.source)
+  p = passwords_yaml.PasswordsYAML(source)
+
   if not p.load_ok:
-    logging.error("Unable to load from source: %s", args.source)
+    logging.error("Unable to load from source: %s", source)
     sys.exit(1)
 
   if args.command:

@@ -72,3 +72,16 @@ Place password for entry on the clipboard::
 
   $ gypp -k some_key my_passwords.gpg
 
+
+New in version 1.1: ``gypp`` will read a list of sources from a configuration file that
+by default is located at ``$HOME/.config/gypp/gypp.yaml``. The config file is a yaml
+file structured like::
+
+  sources:
+    source_name_1: path/to/encrypted/file
+    source_name_2: path/to/another/encryped/file
+
+``gypp`` can then be run using a key under ``sources`` to specify the gpg file to read. e.g.::
+
+  $ gypp source_name_2
+
